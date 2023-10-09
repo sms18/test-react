@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import logoImage from './image/2 (1).png';
-import educatorImage from './image/undraw_educator_re_ju47.svg';
+import logoImage from '../src/image/2 (1).png';
+import educatorImage from '../src/image/undraw_educator_re_ju47.svg';
 
 const styles = {
   body: {

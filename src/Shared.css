@@ -74,9 +74,9 @@ position: absolute;
     color: white;
     font-size: 50px;
     position: absolute;
-    top: 80%;
-    left: 20%;
-    padding: 20px; /* Add padding here to adjust spacing */
+    top: 50%;
+    left: 10%;
+    padding: 20px; 
   }
   
 .button-container {
