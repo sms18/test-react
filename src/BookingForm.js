@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import logoImage from '../src/image/2 (1).png';
 import educatorImage from '../src/image/undraw_educator_re_ju47.svg';
+import { useQuery } from 'react-query';
 
 const styles = {
   body: {
@@ -121,66 +122,81 @@ const styles = {
     margin: '0 auto',
     display: 'block',
   },
-  
   logo: {
     width: '100px',
     height: 'auto',
   },
 };
-class BookingForm extends Component {
-  render() {
-    return (
-      <div style={styles.body} className="booking-form">
-        <div style={styles.header}>
-          <Link to="/">
-            <img src={logoImage} alt="Your Logo" style={styles.headerImg} />
-          </Link>
-        </div>
-        <div style={styles.box}>
-          <div style={styles.leftHalf}>
-            <img src={logoImage} alt="Logo" style={styles.logo} />
-            <div style={styles.registrationForm}>
-              <label htmlFor="firstName" style={styles.registrationFormLabel}>First Name:</label>
-              <input type="text" id="firstName" name="firstName" required style={styles.registrationFormInput} />
 
-              <label htmlFor="lastName" style={styles.registrationFormLabel}>Last Name:</label>
-              <input type="text" id="lastName" name="lastName" required style={styles.registrationFormInput} />
 
-              <label htmlFor="email" style={styles.registrationFormLabel}>Email:</label>
-              <input type="email" id="email" name="email" required style={styles.registrationFormInput} />
 
-              <label htmlFor="number" style={styles.registrationFormLabel}>Number:</label>
-              <input type="tel" id="number" name="number" required style={styles.registrationFormInput} />
+async function fetchUserData() {
+  const response = await fetch('https://api.example.com/user'); // Replace with your API endpoint
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+}
 
-              <label htmlFor="city" style={styles.registrationFormLabel}>City:</label>
-              <input type="text" id="city" name="city" required style={styles.registrationFormInput} />
+function BookingForm() {
+  const { data, isLoading, error } = useQuery('userData', fetchUserData);
 
-              <label htmlFor="gender" style={styles.registrationFormLabel}>Gender:</label>
-              <div style={styles.radioGroup}>
-                <input type="radio" id="male" name="gender" value="male" required />
-                <label htmlFor="male" style={styles.radioGroupLabel}>Male</label>
-                <input type="radio" id="female" name="gender" value="female" required />
-                <label htmlFor="female" style={styles.radioGroupLabel}>Female</label>
-              </div>
-              <button type="submit" className="submit-button" style={styles.submitButton}><strong>Done</strong></button>
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  // Once data is loaded, you can access it here
+  const userData = data;
+
+  return (
+    <div style={styles.body} className="booking-form">
+      <div style={styles.header}>
+        <Link to="/">
+          <img src={logoImage} alt="Your Logo" style={styles.headerImg} />
+        </Link>
+      </div>
+      <div style={styles.box}>
+        <div style={styles.leftHalf}>
+          <img src={logoImage} alt="Logo" style={styles.logo} />
+          <div style={styles.registrationForm}>
+            <label htmlFor="firstName" style={styles.registrationFormLabel}>First Name:</label>
+            <input type="text" id="firstName" name="firstName" required style={styles.registrationFormInput} value={userData.firstName} />
+
+            <label htmlFor="lastName" style={styles.registrationFormLabel}>Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required style={styles.registrationFormInput} value={userData.lastName} />
+
+            <label htmlFor="email" style={styles.registrationFormLabel}>Email:</label>
+            <input type="email" id="email" name="email" required style={styles.registrationFormInput} value={userData.email} />
+
+            <label htmlFor="number" style={styles.registrationFormLabel}>Number:</label>
+            <input type="tel" id="number" name="number" required style={styles.registrationFormInput} value={userData.number} />
+
+            <label htmlFor="city" style={styles.registrationFormLabel}>City:</label>
+            <input type="text" id="city" name="city" required style={styles.registrationFormInput} value={userData.city} />
+
+            <label htmlFor="gender" style={styles.registrationFormLabel}>Gender:</label>
+            <div style={styles.radioGroup}>
+              <input type="radio" id="male" name="gender" value="male" required />
+              <label htmlFor="male" style={styles.radioGroupLabel}>Male</label>
+              <input type="radio" id="female" name="gender" value="female" required />
+              <label htmlFor="female" style={styles.radioGroupLabel}>Female</label>
             </div>
+            <button type="submit" className="submit-button" style={styles.submitButton}><strong>Done</strong></button>
           </div>
-          <div style={styles.rightHalf}>
-            <div style={styles.circle1}></div>
-            <div style={styles.circle2}>
-              <img src={educatorImage} alt="Inner Image" style={styles.circle2Img} />
-            </div>
+        </div>
+        <div style={styles.rightHalf}>
+          <div style={styles.circle1}></div>
+          <div style={styles.circle2}>
+            <img src={educatorImage} alt="Inner Image" style={styles.circle2Img} />
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default BookingForm;
-
-
-
-
-
-
