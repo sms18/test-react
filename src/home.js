@@ -1,10 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logoImage from '../src/image/2 (1).png';
-import programmingImage from '../src/image/undraw_programming_re_kg9v.svg';
-import helloImage from '../src/image/undraw_hello_re_3evm.svg';
-import freelancerImage from '../src/image/undraw_freelancer_re_irh4.svg';
-import proudCoderImage from '../src/image/undraw_proud_coder_re_exuy.svg';
 
 const styles = {
   header: {
@@ -92,58 +88,49 @@ const styles = {
   },
 };
 
-function Home() {
+const Home = () => {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch the list of courses from your API or data source
+    fetch('YOUR_COURSES_API_URL') // Replace with your actual API endpoint
+      .then((response) => response.json())
+      .then((data) => {
+        setCourses(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching courses: ', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <div style={styles.header}>
         <img src={logoImage} alt="Your Logo" style={styles.headerImg} />
       </div>
       <div style={styles.container}>
-        <div style={styles.text}>
-          <p style={{ fontWeight: 'bold', fontSize: '46.29px', color: '#1A8CF7' }}>Get started now!</p>
-          <p style={{ fontWeight: 'bold' }}>Ready to embark on an exciting learning journey with us? 🚀</p>
-          <p style={{ color: '#303030', fontSize: '32px' }}><strong>HUB200</strong></p>
-          <p style={{ fontWeight: 'bold' }}>has never been easier.</p>
-        </div>
-        <div style={styles.photo}>
-          <img src={programmingImage} alt="Your Image Description" />
-        </div>
-      </div>
-      <div style={styles.box}>
-        <div style={styles.boxText}>
-          <div style={styles.nestedBox}>
-            <img src={helloImage} alt="Your Image Description" style={{ width: '100%', maxHeight: '200px' }} />
-            <p style={{ fontWeight: 'bold', fontSize: '22.8px' }}>CCNA 2023</p>
-            <p style={{ fontWeight: 'bold' }}>In this course, we share knowledge about KEY and MOST IMPORTANT features of Computer Networks.</p>
+        {courses.map((course) => (
+          <div key={course.id} style={styles.nestedBox}>
+            <img src={course.image} alt={course.title} style={{ width: '100%', maxHeight: '200px' }} />
+            <p style={{ fontWeight: 'bold', fontSize: '22.8px' }}>{course.title}</p>
+            <p style={{ fontWeight: 'bold' }}>{course.description}</p>
             <div style={styles.buttonContainer}>
-              <Link to="/booking" className="nested-box-button">Booking</Link>
-              <Link to="/ccna" className="nested-box-button" style={{ marginLeft: '5px' }}>Details</Link>
+              <Link to={`/courses/${course.id}`} className="nested-box-button">
+                Details
+              </Link>
             </div>
           </div>
-
-          <div style={styles.nestedBox}>
-            <img src={freelancerImage} alt="Your Image Description" style={{ width: '100%', maxHeight: '200px' }} />
-            <p style={{ fontWeight: 'bold', fontSize: '22.8px' }}>Meta Front-End Developer</p>
-            <p style={{ fontWeight: 'bold' }}>In this program, you’ll learn how to code and build interactive web pages using HTML5, CSS, and JavaScript.</p>
-            <div style={styles.buttonContainer}>
-              <Link to="/booking" className="nested-box-button">Booking</Link>
-              <Link to="/meta-frontend" className="nested-box-button" style={{ marginLeft: '5px' }}>Details</Link>
-            </div>
-          </div>
-
-          <div style={styles.nestedBox}>
-            <img src={proudCoderImage} alt="Your Image Description" style={{ width: '100%', maxHeight: '200px' }} />
-            <p style={{ fontWeight: 'bold', fontSize: '22.8px' }}>Web50X</p>
-            <p style={{ fontWeight: 'bold' }}>This course picks up where the CS50x course left off, and it's also for individuals with prior programming experience.</p>
-            <div style={styles.buttonContainer}>
-              <Link to="/booking" className="nested-box-button">Booking</Link>
-              <Link to="/web50x" className="nested-box-button" style={{ marginLeft: '5px' }}>Details</Link>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default Home;

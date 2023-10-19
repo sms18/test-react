@@ -128,8 +128,6 @@ const styles = {
   },
 };
 
-
-
 async function fetchUserData() {
   const response = await fetch('https://api.example.com/user'); // Replace with your API endpoint
   if (!response.ok) {
