@@ -1,17 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './home';
-import Course from './Course';
+import Course from './courses';
 import BookingForm from './BookingForm';
 
 function App() {
   return (
     <Router>
-      <div>
-        <Route path="/" exact component={Home} />
-        <Route path="/courses/:id" component={Course} />
-        <Route path="/courses/:id/booking" component={BookingForm} />
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/courses/:id" element={<Course />} />
+        <Route path="/courses/:id/booking" element={<BookingForm />} />
+      </Routes>
     </Router>
   );
 }
