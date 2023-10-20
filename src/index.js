@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+
 import './Home.css';
 import { QueryClient, QueryClientProvider } from 'react-query'; // Import from 'react-query', and fix the typos
 
@@ -13,4 +14,8 @@ ReactDOM.render(
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
+  
 );
+
+
+
